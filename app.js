@@ -30,8 +30,6 @@ const main = async() => {
     try {
         connection = await pool.getConnectionAsync();
     } catch (error) {
-        await connection.release()
-        await pool.endAsync();
         console.error(error)
         console.error("创建数据库链接失败")
         return
