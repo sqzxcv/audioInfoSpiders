@@ -10,7 +10,7 @@ module.exports = {
       name: "audioInfoSpiders",
       max_memory_restart: "1024M",
       log_date_format: "YYYY-MM-DD HH:mm:ss SSS",
-      script: "./bin/www",
+      script: "./app.js",
       out_file: "/var/log/audioInfoSpiders/app.log",
       error_file: "/var/log/audioInfoSpiders/err.log",
       port: "0",
