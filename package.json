@@ -1,0 +1,29 @@
+{
+  "name": "audioinfospiders",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sqzxcv/audioInfoSpiders.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sqzxcv/audioInfoSpiders/issues"
+  },
+  "homepage": "https://github.com/sqzxcv/audioInfoSpiders#readme",
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "co": "^4.6.0",
+    "events": "^1.1.1",
+    "moment": "^2.18.1",
+    "mysql": "^2.14.1",
+    "nodemailer": "^4.1.0",
+    "request": "^2.81.0",
+    "util": "^0.10.3"
+  }
+}
