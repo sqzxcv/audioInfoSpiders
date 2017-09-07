@@ -91,7 +91,7 @@ const fetchDataJob = async(fun, interval, param) => {
                 fetchDataJob(fun, interval, nextparam)
                 break
             } else if (result.continue_fetch == false) {
-                console.log(`$--------------------<<{param.catelog_name}>> 已经更新完成`)
+                console.log(`---------------------------------------------<<${param.catelog_name}>> 已经更新完成`)
                 break
             }
             //请求失败,进行重试
