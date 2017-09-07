@@ -42,7 +42,7 @@ const main = async() => {
 
 var catalogPool = {}
 const fetchJobPool = async() => {
-    // console.log("test")
+    console.log("++++++++++++++++++++++++开始更新全部数据")
     var opt = {}
     opt.url = "https://api.leting.io/v1.1/catalog/list?parent_id=c12ddc8c-70a5-467f-8a6f-01ffc8a06635"
     try {
