@@ -4,14 +4,37 @@ const bluebird = require("bluebird")
 const request_koa = require("./common/request_koa.js")
 const mysql = require('mysql')
 bluebird.promisifyAll(require("mysql/lib/Connection").prototype);
+bluebird.promisifyAll(require("mysql/lib/PoolConnection").prototype)
 bluebird.promisifyAll(require("mysql/lib/Pool").prototype);
 const moment = require("moment")
 const sqlStringM = require('sqlstring')
 const config = require('./config')
 
+var connection = null
+
 const main = async() => {
     // 
     //create and start schedule
+
+    var pool = mysql.createPool({
+        host: config['dbhost'],
+        user: config['dbuser'],
+        password: config['dbpwd'],
+        database: "Nina",
+        connectionLimit: 100,
+        port: "3306",
+        waitForConnections: false
+    });
+
+    try {
+        connection = await pool.getConnectionAsync();
+    } catch (error) {
+        await connection.release()
+        await pool.endAsync();
+        console.error(error)
+        console.error("创建数据库链接失败")
+        return
+    }
 
     //job pool
     startIntervalScheduleJob(fetchJobPool, 20 * 60 * 60 * 10)
@@ -128,27 +151,15 @@ const saveData2db = async(results) => {
             // "continue_fetch": false
         }
     }
-    var pool = mysql.createPool({
-        host: config['dbhost'],
-        user: config['dbuser'],
-        password: config['dbpwd'],
-        database: "Nina",
-        connectionLimit: 100,
-        port: "3306",
-        waitForConnections: false
-    });
 
-    try {
-        // var connection = await pool.getConnectionAsync();
-    } catch (error) {
-        // await connection.release()
-        console.error(error)
+    if (connection == null) {
+        console.error("数据库链接为 null")
         return {
-            "error": error
+            "continue_fetch": false
         }
     }
-    var sql = `insert ignore into audioSources(news_id, catalog_name, catalog_id,image, duration, summary, text, tags, source, hot,news_time,title,audio,collect_time, catalogid) values`
 
+    var sql = `insert ignore into audioSources(news_id, catalog_name, catalog_id,image, duration, summary, text, tags, source, hot,news_time,title,audio,collect_time, catalogid) values`
     var el = results[0]
     var catalog_name = catalogPool[el.catalog_id]["catalog_name"]
     var catalogid = 0
@@ -193,7 +204,7 @@ const saveData2db = async(results) => {
     }
     var returnVal = {}
     try {
-        var insertResults = await pool.queryAsync(sql)//await connection.queryAsync(sql)
+        var insertResults = await connection.queryAsync(sql)
         console.log(`${catalog_name} 更新 ${insertResults.affectedRows} 条记录`)
         if (insertResults.affectedRows < results.length - 10) {
             console.log("插入成功, 但超过10条重复记录,需要停止查询")
@@ -212,29 +223,7 @@ const saveData2db = async(results) => {
             "error": error
         }
     }
-    try {
-
-        // connection.release()
-        // ShowObjProperty(connection)
-        // await connection.releaseAsync()
-    } catch (error) {
-        console.error(error)
-    }
-    // connection.close
-
     return returnVal
-}
-
-function ShowObjProperty(Obj) {
-    var PropertyList = '';
-    var PropertyCount = 0;
-    for (i in Obj) {
-        if (Obj.i != null)
-            PropertyList = PropertyList + i + '属性：' + Obj.i + '\r\n';
-        else
-            PropertyList = PropertyList + i + '方法\r\n';
-    }
-    console.log(PropertyList);
 }
 
 var sleep = function (time) {
