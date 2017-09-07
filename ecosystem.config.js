@@ -7,13 +7,13 @@ module.exports = {
 
     // First application
     {
-      name: "nina",
+      name: "audioInfoSpiders",
       max_memory_restart: "1024M",
       log_date_format: "YYYY-MM-DD HH:mm:ss SSS",
       script: "./bin/www",
-      out_file: "/var/log/nina/app.log",
-      error_file: "/var/log/nina/err.log",
-      port: "3085",
+      out_file: "/var/log/audioInfoSpiders/app.log",
+      error_file: "/var/log/audioInfoSpiders/err.log",
+      port: "0",
       env: {
         COMMON_VARIABLE: 'true'
       },
@@ -33,20 +33,9 @@ module.exports = {
       host:'123.207.79.244',
       // host: '116.62.195.14',
       ref: 'origin/master',
-      repo: 'git@github.com:sqzxcv/nina.git',
+      repo: 'git@github.com/sqzxcv/audioInfoSpiders.git',
       path: '/var/www/nina',
-      "post-deploy": 'nvm use 8.0.0 && git pull && npm install && pm2 reload ecosystem.config.js --env production'
-    },
-    dev: {
-      user: 'root',
-      host: '116.62.195.14',
-      ref: 'origin/master',
-      repo: 'git@github.com:sqzxcv/videoservice.git',
-      path: '/var/www/development',
-      "post-deploy": 'npm install && pm2 reload ecosystem.config.js --env dev',
-      env: {
-        NODE_ENV: 'dev'
-      }
+      "post-deploy": 'nvm use 8.0.0 && git pull && cnpm install && pm2 reload ecosystem.config.js --env production'
     }
   }
 };
