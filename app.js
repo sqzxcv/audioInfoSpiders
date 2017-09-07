@@ -11,12 +11,13 @@ const sqlStringM = require('sqlstring')
 const config = require('./config')
 
 var connection = null
+var pool = null
 
 const main = async() => {
     // 
     //create and start schedule
 
-    var pool = mysql.createPool({
+    pool = mysql.createPool({
         host: config['dbhost'],
         user: config['dbuser'],
         password: config['dbpwd'],
@@ -37,7 +38,7 @@ const main = async() => {
     }
 
     //job pool
-    startIntervalScheduleJob(fetchJobPool, 20 * 60 * 60 * 10)
+    startIntervalScheduleJob(fetchJobPool, 20 * 60)
 
 }
 
@@ -58,7 +59,7 @@ const fetchJobPool = async() => {
                     "catalog_id": catalog_id,
                     "catelog_name": element.catalog_name,
                     "offset": 0,
-                    "limit": 200
+                    "limit": 50
                 });
                 await sleep(3)
             }
@@ -85,7 +86,7 @@ const fetchDataJob = async(fun, interval, param) => {
         if (retrycount < 3) {
             var nextparam = JSON.parse(JSON.stringify(param))
             result = await fun(param)
-            if (result.error == null /*&& result.continue_fetch == true*/ ) {
+            if (result.error == null && result.continue_fetch == true) {
                 //请求成功,请求下一页,并跳出当前循环
                 await sleep(interval)
                 nextparam.offset = nextparam.offset + nextparam.limit
@@ -99,7 +100,7 @@ const fetchDataJob = async(fun, interval, param) => {
             retrycount++
         } else {
             //三次尝试失败, 发送邮件通知
-            // sendEmail(result.error)
+            sendEmail(result.error)
             console.error(`${param.catelog_name} 更新遇到错误, 停止更新;error:\n${result.error}`)
             break
         }
@@ -146,9 +147,8 @@ const saveData2db = async(results) => {
 
     if (results == null || results.length == 0) {
         return {
-            "error": "请求完成,退出"
-            //todo
-            // "continue_fetch": false
+            // "error": "请求完成,退出"
+            "continue_fetch": false
         }
     }
 
