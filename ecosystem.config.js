@@ -33,8 +33,8 @@ module.exports = {
       host:'123.207.79.244',
       // host: '116.62.195.14',
       ref: 'origin/master',
-      repo: 'git@github.com/sqzxcv/audioInfoSpiders.git',
-      path: '/var/www/nina',
+      repo: 'git@github.com:sqzxcv/audioInfoSpiders.git',
+      path: '/var/www/audioInfoSpiders',
       "post-deploy": 'nvm use 8.0.0 && git pull && cnpm install && pm2 reload ecosystem.config.js --env production'
     }
   }
