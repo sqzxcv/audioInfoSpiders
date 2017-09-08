@@ -157,9 +157,6 @@ const saveData2db = async(results) => {
         }
     }
 
-    var sql = `insert ignore into audioSources(news_id, catalog_name, catalog_id,image, duration, summary, text, tags, source, hot,news_time,title,audio,collect_time, catalogid) values`
-    var el = results[0]
-    var catalog_name = catalogPool[el.catalog_id]["catalog_name"]
     var catalogid = 0
     switch (catalog_name) {
         case '科技':
@@ -184,11 +181,13 @@ const saveData2db = async(results) => {
         case "社会":
             catalogid = 4
             break
-
         default:
             catalogid = 0
             break;
     }
+    var sql = `insert ignore into radioDB(news_id, catalog_name, catalog_id,image, duration, summary, text, tags, source, hot,news_time,title,audio,collect_time, catalogid) values`
+    var el = results[0]
+    var catalog_name = catalogPool[el.catalog_id]["catalog_name"]
     for (var index = 0; index < results.length; index++) {
         var el = results[index]
         var newtime = el.updated_at
