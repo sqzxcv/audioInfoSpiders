@@ -194,10 +194,11 @@ const saveData2db = async(results) => {
         if (newtime.length == 0) {
             newtime = el.created_at
         }
+        newtime = newtime.replace(/CST/g, "").replace(/UTC/g, "");
         if (index != 0) {
             sql += `, `
         }
-        sql += `('${el.news_id}', ${sqlStringM.escape(catalog_name)}, '${el.catalog_id}', '${el.image}', ${el.duration}, ${sqlStringM.escape(el.summary)}, ${sqlStringM.escape(el.text)}, ${sqlStringM.escape(el.tags)}, ${sqlStringM.escape(el.source)}, ${el.hot}, 0, ${sqlStringM.escape(el.title)}, ${sqlStringM.escape(el.audio)}, ${moment().unix()}, ${catalogid})`
+        sql += `('${el.news_id}', ${sqlStringM.escape(catalog_name)}, '${el.catalog_id}', '${el.image}', ${el.duration}, ${sqlStringM.escape(el.summary)}, ${sqlStringM.escape(el.text)}, ${sqlStringM.escape(el.tags)}, ${sqlStringM.escape(el.source)}, ${el.hot}, ${moment(newtime).unix()}, ${sqlStringM.escape(el.title)}, ${sqlStringM.escape(el.audio)}, ${moment().unix()}, ${catalogid})`
     }
     var returnVal = {}
     try {
