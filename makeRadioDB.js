@@ -18,7 +18,7 @@ const makeRadioDB = async() => {
         password: config['dbpwd'],
         database: "Nina",
         connectionLimit: 100,
-        port: "3306",
+        port: config['dbport'],
         waitForConnections: false
     });
 
@@ -34,7 +34,7 @@ const makeRadioDB = async() => {
     var catalog_names = ['科技', '数码', '汽车', "产经", "房产", "股票", "金融", "娱乐", "体育", "脱口秀", "国内","国际","军事","社会"]
     for (var index = 0; index < catalog_names.length; index++) {
         var catalog_name = catalog_names[index];
-        var sql = `select news_id, catalog_name, catalog_id,image, duration, summary, text, tags, source, hot,news_time,title,audio,collect_time, catalogid from audioSources where catalog_name='${catalog_name}' order by news_time desc`
+        var sql = `select news_id, catalog_name, catalog_id,image, duration, summary, text, tags, source, hot,news_time,title,audio,collect_time, catalogid from radioDB_bk where catalog_name='${catalog_name}' order by news_time desc`
         try {
             var insertResults = await connection.queryAsync(sql)
             await insertToRadioDB(insertResults)
