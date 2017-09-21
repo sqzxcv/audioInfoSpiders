@@ -159,7 +159,7 @@ const saveData2db = async(results) => {
         }
     }
 
-    var sql = `insert ignore into audioSources(news_id, catalog_name, catalog_id,image, duration, summary, text, tags, source, hot,news_time,title,audio,collect_time, catalogid) values`
+    var sql = `insert ignore into radioDB(news_id, catalog_name, catalog_id,image, duration, summary, text, tags, source, hot,news_time,title,audio,collect_time, catalogid) values`
     var el = results[0]
     var catalog_name = catalogPool[el.catalog_id]["catalog_name"]
     var catalogid = 0
@@ -197,7 +197,7 @@ const saveData2db = async(results) => {
         if (newtime.length == 0) {
             newtime = el.created_at
         }
-        newtime = newtime.replace(/CST/g, "").replace(/UTC/g, "");
+        // newtime = newtime.replace(/CST/g, "").replace(/UTC/g, "");
         if (index != 0) {
             sql += `, `
         }

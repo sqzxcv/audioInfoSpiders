@@ -194,7 +194,7 @@ const saveData2db = async(results) => {
         if (newtime.length == 0) {
             newtime = el.created_at
         }
-        newtime = newtime.replace(/CST/g, "").replace(/UTC/g, "");
+        // newtime = newtime.replace(/CST/g, "").replace(/UTC/g, "");
         if (index != 0) {
             sql += `, `
         }
