@@ -30,8 +30,8 @@ module.exports = {
   deploy: {
     production: {
       user: 'root',
-      host:'123.207.79.244',
-      // host: '47.52.88.82',
+      // host:'123.207.79.244',
+      host: '47.52.88.82',
       ref: 'origin/master',
       repo: 'git@github.com:sqzxcv/audioInfoSpiders.git',
       path: '/var/www/audioInfoSpiders',

@@ -1,6 +1,6 @@
 var config = {
-    // "dbhost":"123.207.79.244",
-    "dbhost":"localhost",
+    "dbhost":"123.207.79.244",
+    // "dbhost":"localhost",
     "dbuser":"root",
     "dbpwd":"Anhuiqiang851",
     "dbport": "3310"
